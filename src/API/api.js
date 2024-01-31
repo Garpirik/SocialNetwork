@@ -1,5 +1,6 @@
 import axios from "axios";
 import { login } from "../redux/authReducer";
+import { saveProfile } from "../redux/profileDataReducer";
 import { follow } from "../redux/usersPageReducer";
 
 
@@ -34,13 +35,26 @@ export const usersAPI = {
 export const profileAPI = {
    getProfile(id){
    return instance.get(`/profile/` + id);
-        
     },
     getStatus(id){
         return instance.get('profile/status/' + id)
     },
     updateStatus(status){
         return instance.put('profile/status' , {status: status} )
+    },
+    savePhoto(photoFile){
+        const formData = new FormData();
+        formData.append("image", photoFile)
+        return instance.put('profile/photo' , formData , {
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        // {photoFile: photoFile} )
+    },
+
+    saveProfile(profile){
+        return instance.put('profile' , profile )
     }
 }
 

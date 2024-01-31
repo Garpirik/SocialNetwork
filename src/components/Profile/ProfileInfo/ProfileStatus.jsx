@@ -32,7 +32,7 @@ const ProfileStatus = (props) =>{
         <input onChange={onStatusChange}  autoFocus onBlur={SaveStatus} value={status}/>{status}
     </div>) : (
     <div>
-        <span onDoubleClick={setEdit}> {status !==""? status:"No status"} </span>
+        <span onDoubleClick={setEdit}> {status !=="" ? status:"No status"} </span>
     </div>)}
     </>
     )

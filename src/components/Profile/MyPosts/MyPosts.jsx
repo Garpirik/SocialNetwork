@@ -9,10 +9,10 @@ import { TextArea } from '../../common/FormsControls/FormsControls';
 import  s from './MyPosts.module.css'
 import Post from './post/Post';
 
-const MyPosts = (props) =>{
+const MyPosts = React.memo(props =>{
+console.log("rendersed")
 
-
-let postElement = props.postData.map( post => <Post message = {post.message}  likes = {post.likes}/>)
+let postElement = props.postData.map( post => <Post key={post.id}  message = {post.message}  likes = {post.likes}/>)
 let newPostElement = React.createRef();
 
 let onAddPost = (values) =>{
@@ -40,6 +40,7 @@ return (
       </div>
 )
 }
+)
 
 
 

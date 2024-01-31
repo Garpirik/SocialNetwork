@@ -1,7 +1,7 @@
 import { stopSubmit } from "redux-form";
 import { authAPI } from "../API/api";
 
-const SET_USER_DATA = 'SET-USER-DATA';
+const SET_USER_DATA = 'auth/SET-USER-DATA';
 const SET_LOGIN_DATA = 'SET-LOGIN-DATA'
 let initialState = {
 id: null,
@@ -35,21 +35,21 @@ export const authReducer = (state = initialState,action) => {
     }
    export const setAuthUserData = (id,email,login,isAuth) =>({type:SET_USER_DATA,data:{id,email,login,isAuth}});
 //    export const SetLoginUserData = (email,password,rememberMe) =>({type: SET_LOGIN_DATA, data:{email,password,rememberMe}})
-   export const getAuthUserData = () => (dispatch) =>{
-      authAPI.me()
-        .then(response => {   
+   export const getAuthUserData = () => async (dispatch) =>{  
+   let response =  await authAPI.me();
+         
             if(response.data.resultCode ===0){
                 let{id,login,email} = response.data.data;
                 dispatch(setAuthUserData(id,email,login, true));
             }
        console.log(response.data.data);
-        });
+
    }
 
-   export const LogIn = (email,password,rememberMe) => (dispatch) =>{
+   export const LogIn = (email,password,rememberMe) =>  async  (dispatch) =>{
     
-    authAPI.login(email,password,rememberMe)
-      .then(response => {   
+   let response=  await authAPI.login(email,password,rememberMe)
+        
           if(response.data.resultCode ===0){
             //   let{email,password,rememberMe} = response.data.data;
               dispatch(getAuthUserData())
@@ -59,19 +59,19 @@ export const authReducer = (state = initialState,action) => {
             dispatch(stopSubmit("login", {_error :message}));
           }
      console.log(response.data.items);
-      });
+      ;
  }
 
- export const LogOut = () => (dispatch) =>{
-    authAPI.logout()
-      .then(response => {   
+ export const LogOut = () =>  async (dispatch) =>{
+     let response =  await authAPI.logout()
+          
           if(response.data.resultCode ===0){
             //   let{email,password,rememberMe} = response.data.data;
               dispatch(setAuthUserData(null,null,null,false));
 
           }
      console.log(response.data.data);
-      });
+      
  }
 
    
